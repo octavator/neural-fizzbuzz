@@ -25,7 +25,7 @@ D'abord, NB_OF_SAMPLES échantillons (50 000 par défaut) sont créés ayant pou
 
 Ensuite, on créer leur table de vérité : la colonne 'FizzBuzz' est égale à 1 si le nombre est un multiple de 3 et de 5, la colonne 'Fizz' est égale à 1 si le nombre est un multiple de 3 (mais n'est pas un multiple de 5 dans le cas du multi-classe, cf: note ci-dessus), la colonne 'Buzz' = 1 si le nombre est un multiple de 5 (mais pas de 3). Si aucun de ces 3 cas n'est concerné, c'est alors la colonne 'Number' que l'on met à 1, signifiant qu'il faudra afficher le nombre reçu en entrée plutôt qu'une réponse FizzBuzz.
 
-Notre objectif est de faire tendre notre perte (ou "loss") le plus proche de 0 possible sur le set de test et s'assurer ainsi que notre modèle généralise correctement la donnée reçue.
+Notre objectif est de faire tendre notre perte (ou "loss") le plus proche possible de 0 sur le set de test et s'assurer ainsi que notre modèle généralise correctement la donnée reçue.
 
 5 paramètres optionnels pour ce programme :
 NB_OF_BITS (-b, --bits): nombre de bits sur lesquels sont encodés les nombres reçus
@@ -57,32 +57,32 @@ La classe Model se charge du chargement du modèle et de prédire les nombres re
 
 2 arguments optionnels (les 3 autres sont acceptés mais n'ont aucun effet):
 
--MODEL_NAME: nom du modèle à charger depuis le dossier "fizzbuzz_models" à la racine
+-MODEL_NAME (-m, --model_name): nom du modèle à charger depuis le dossier "fizzbuzz_models" à la racine
 Valeur par défaut: dernier modèle ayant été créé ou modifié
 
--NB_OF_BITS: Doit être égal au NB_OF_BITS du modèle entraîné que l'on veut interroger.
+-NB_OF_BITS (-b, --bits): Doit être égal au NB_OF_BITS du modèle entraîné que l'on veut interroger.
 Valeur par défaut: 18 (valeur max = 262143) 
 
 
 ###### SEEDS ######
-#Fixer la seed de numpy permet de générer les mêmes données aléatoires au fil des éxécutions
+Fixer la seed de numpy permet de générer les mêmes données aléatoires au fil des éxécutions
 
-#Fixer la seed de Tensorflow permet d'avoir les mêmes initialisations des neurones au fil des éxécutions
-#Set Tensorflow's seed to have same perceptron initialisations over multiple executions
+Fixer la seed de Tensorflow permet d'avoir les mêmes initialisations des neurones au fil des éxécutions
 
-#Set scki-kit's train_test_split seed to have same data partitioning over multiple executions 
+Fixer la seed de train_test_split du module scki-kit permet d'avoir les mêmes partitions de données au fil des éxécutions
 
 --- Remarque ---
 Une solution envisageable pour un modèle de production serait d'entraîner 10 versions du même modèle avec des seeds différentes
 et de prendre le vote de la majorité dans un problème de classification ou la moyenne dans un cas de régression.
 
 ###### PREREQUIS ######
-Allez dans le dossier fizzbuzz/
+Allez dans le dossier racine fizzbuzz/
 ```
 cd fizzbuzz
 ```
 
 #Python version 3.5 - 3.8
+!!! Tensorflow ne fonctionne qu'avec la version 64-bit de Python !!!
 ```
 py --version
 ```
@@ -95,7 +95,7 @@ or download it at: https://www.python.org/downloads/
 py -m venv fb-venv && source fb-venv/bin/activate
 
 --- WINDOWS ---
-source fb-venv/Scripts/activate
+py -m venv fb-venv && fb-venv\Scripts\activate.bat
 ```
 
 Si erreur sous UNIX, peut-être:
@@ -115,11 +115,13 @@ sudo apt-get install python3-pip ; pip install --upgrade pip
 Téléchargez ce fichier sur votre bureau: https://bootstrap.pypa.io/get-pip.py
 puis lancez la commande
 ```
-py ~/Desktop/get-pip.py
+py %USERPROFILE%\Desktop\get-pip.py
 ```
-Si la commande "pip -v" n'échoue pas, alors pip est probablement correctement installé !
 
-Pour mettre pip à jour:
+
+Si la commande "pip --version" n'échoue pas, alors pip est probablement correctement installé !
+
+Pour mettre pip à jour (20.1.1 actuellement):
 ```
 py -m pip install --upgrade pip
 ```
@@ -130,6 +132,10 @@ Installer les dépendances du projet via pip
 ```
 py -m pip install -r requirements.txt
 ```
+
+--- WINDOWS ---
+Sur Windows, tensorflow recquiert également les paquets C++ VS 2015, 2017 et 2019 accessible ici:
+https://aka.ms/vs/16/release/vc_redist.x64.exe
 
 ###### UTILISATION ######
 
@@ -185,9 +191,7 @@ py fb-predictor/predictor.py -m my_model_name
 Une fois dans l'interpreteur de commande, rentrez un nombre inférieur au maximum pour avoir le retour du fizzbuzz neuronal ou bien tapez 'quit' pour quitter le programme.
 
 --- EXAMPLE ---
-py fb-trainer/trainer.py -s 20000 -b 10 -t 33 -i 80 -m test_model
-&&
-py fb-predictor/predictor.py -b 10 -m test_model
+py fb-trainer/trainer.py -s 20000 -b 10 -t 33 -i 80 -m test_model && py fb-predictor/predictor.py -b 10 -m test_model
 
 
 ###### MY FEEDBACK ######
