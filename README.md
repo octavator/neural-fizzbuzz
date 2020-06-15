@@ -90,22 +90,25 @@ or download it at: https://www.python.org/downloads/
 
 
 #Python's Virtual Environment
+
+--- UBUNTU / DEBIAN ---
 ```
---- UNIX ---
+sudo apt-get install python3-venv && py -m venv fb-venv && source fb-venv/bin/activate
+```
+
+--- OTHER UNIX DISTRIBUTIONS ---
+```
 py -m venv fb-venv && source fb-venv/bin/activate
+```
 
 --- WINDOWS ---
+```
 py -m venv fb-venv && fb-venv\Scripts\activate.bat
-```
-
-Si erreur sous UNIX, peut-être:
-```
-sudo apt-get install python3-venv
 ```
 
 
 #Pip (version >19.0)
-Otherwise: 
+
 --- UNIX ---
 ```
 sudo apt-get install python3-pip ; pip install --upgrade pip
